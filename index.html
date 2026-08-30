@@ -902,22 +902,21 @@
     const musicBtn = document.getElementById('musicBtn');
     let musicaIniciada = false;
 
-    function cargarPista(indice) {
-      audio.src = playlist[indice];
-      audio.load();
-    }
+    // Asignar primera pista inmediatamente
+    audio.src = playlist[0];
 
     function reproducirAudio() {
-      if (!audio.src || audio.src === window.location.href) {
-        cargarPista(pistaActual);
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          musicBtn.innerText = '🔊';
+          musicBtn.classList.add('playing');
+          musicaIniciada = true;
+          removerListenersInteraccion();
+        }).catch(() => {
+          musicBtn.innerText = '🔈';
+        });
       }
-      audio.play().then(() => {
-        musicBtn.innerText = '🔊';
-        musicBtn.classList.add('playing');
-        musicaIniciada = true;
-      }).catch(() => {
-        musicBtn.innerText = '🔈';
-      });
     }
 
     function pausarAudio() {
@@ -926,36 +925,32 @@
       musicBtn.classList.remove('playing');
     }
 
-    // Al finalizar la primera canción pasa a la siguiente; la última queda en loop
     audio.addEventListener('ended', () => {
       pistaActual++;
       if (pistaActual < playlist.length) {
-        cargarPista(pistaActual);
+        audio.src = playlist[pistaActual];
         reproducirAudio();
       } else {
-        // Mantiene en bucle la última canción
         pistaActual = playlist.length - 1;
-        cargarPista(pistaActual);
+        audio.src = playlist[pistaActual];
         audio.loop = true;
         reproducirAudio();
       }
     });
 
-    window.addEventListener('load', () => {
-      cargarPista(0);
-      reproducirAudio();
-    });
-
-    function iniciarAlInteractuar() {
+    // Desbloqueo instantáneo con cualquier gesto en Android / iOS
+    function desbloquearAudio() {
       if (!musicaIniciada) {
         reproducirAudio();
       }
-      document.removeEventListener('touchstart', iniciarAlInteractuar);
-      document.removeEventListener('click', iniciarAlInteractuar);
     }
 
-    document.addEventListener('touchstart', iniciarAlInteractuar, { passive: true });
-    document.addEventListener('click', iniciarAlInteractuar);
+    const eventos = ['pointerdown', 'touchstart', 'click', 'scroll'];
+    eventos.forEach(evt => window.addEventListener(evt, desbloquearAudio, { passive: true, once: true }));
+
+    function removerListenersInteraccion() {
+      eventos.forEach(evt => window.removeEventListener(evt, desbloquearAudio));
+    }
 
     musicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
