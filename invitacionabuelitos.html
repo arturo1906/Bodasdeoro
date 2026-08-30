@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bodas de Oro | Mary & Arturo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --soft-navy: #353b65;
+      --dusty-blue: #7d8ea9;
+      --warm-taupe: #c2b6a6;
+      --champagne: #ede6d6;
+      --ivory: #fcfbf9;
+      --white: #ffffff;
+      --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f7e08b 35%, #b8860b 70%, #d4af37 100%);
+      --whatsapp-green: #25d366;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--warm-taupe);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      padding: 60px 20px 40px;
+    }
+
+    /* ===== BOTÓN FLOTANTE DE MÚSICA ===== */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      background-color: rgba(252, 251, 249, 0.9);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(53, 59, 101, 0.15);
+      backdrop-filter: blur(4px);
+      font-size: 1.1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .music-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .music-btn.playing {
+      animation: pulseMusic 2s infinite;
+    }
+
+    @keyframes pulseMusic {
+      0% { box-shadow: 0 0 0 0 rgba(53, 59, 101, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(53, 59, 101, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(53, 59, 101, 0); }
+    }
+
+    /* ===== BOTÓN HAMBURGUESA ===== */
+    .menu-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background-color: rgba(252, 251, 249, 0.9);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(53, 59, 101, 0.15);
+      backdrop-filter: blur(4px);
+    }
+
+    .menu-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: var(--soft-navy);
+      border-radius: 2px;
+      transition: 0.3s ease;
+    }
+
+    /* ===== MENÚ LATERAL DESPLEGABLE ===== */
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 260px;
+      height: 100vh;
+      background-color: var(--ivory);
+      z-index: 999;
+      box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
+      transition: right 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 80px 30px 40px;
+    }
+
+    .menu-overlay.activo {
+      right: 0;
+    }
+
+    .menu-overlay nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .menu-overlay nav a {
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--soft-navy);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: color 0.2s ease;
+      display: block;
+    }
+
+    .menu-overlay nav a:hover {
+      color: var(--dusty-blue);
+    }
+
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 998;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .backdrop.activo {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ===== CONTENEDOR PRINCIPAL ===== */
+    .invitacion-layout {
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .header-tag {
+      font-family: 'Alex Brush', cursive;
+      font-size: 2.8rem;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .titulo-principal {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--soft-navy);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    /* Imagen superior */
+    .foto-contenedor {
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto 25px;
+    }
+
+    .foto-contenedor img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Nombres en blanco */
+    .nombres-abuelos {
+      margin-bottom: 30px;
+    }
+
+    .nombres-abuelos h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--white);
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+
+    .nombres-abuelos .ampersand {
+      font-family: 'Alex Brush', cursive;
+      font-size: 2.6rem;
+      color: var(--white);
+      margin: 0 6px;
+      vertical-align: middle;
+    }
+
+    /* Contador */
+    .seccion-contador h3 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--white);
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .timer-grid {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .timer-item {
+      background-color: rgba(252, 251, 249, 0.85);
+      padding: 12px 10px;
+      border-radius: 10px;
+      min-width: 68px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .timer-item .numero {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--soft-navy);
+    }
+
+    .timer-item .etiqueta {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--soft-navy);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    /* ===== SECCIONES GENERALES ===== */
+    .seccion-bloque {
+      padding: 60px 0 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      margin-top: 50px;
+    }
+
+    .seccion-bloque h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .seccion-subtitulo {
+      font-size: 0.85rem;
+      color: var(--ivory);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 25px;
+    }
+
+    /* ===== TIMELINE ITINERARIO ===== */
+    .timeline {
+      position: relative;
+      margin: 0 auto;
+      padding: 10px 0;
+      max-width: 380px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 10px;
+    }
+
+    .timeline-badge {
+      display: inline-block;
+      background-color: var(--soft-navy);
+      color: var(--ivory);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* ===== DRESS CODE ===== */
+    .card-info {
+      background-color: rgba(252, 251, 249, 0.9);
+      padding: 28px 22px;
+      border-radius: 14px;
+      max-width: 420px;
+      margin: 0 auto;
+      box-shadow: 0 6px 20px rgba(53, 59, 101, 0.1);
+    }
+
+    .tipo-vestimenta {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--soft-navy);
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .nota-dresscode {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .colores-reservados {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .color-muestra {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .circulo-color {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .color-muestra span {
+      font-size: 0.72rem;
+      color: var(--soft-navy);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .color-azul { background-color: var(--soft-navy); }
+    .color-blanco { background-color: #ffffff; }
+    .color-nude { background-color: #e5d3b3; }
+
+    /* ===== UBICACIÓN ===== */
+    .texto-ubicacion {
+      color: var(--white);
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 380px;
+      margin: 0 auto 20px;
+    }
+
+    .btn-ubicacion {
+      display: inline-block;
+      background-color: rgba(252, 251, 249, 0.95);
+      color: var(--soft-navy);
+      text-decoration: none;
+      padding: 13px 28px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      box-shadow: 0 4px 15px rgba(53, 59, 101, 0.15);
+    }
+
+    .btn-ubicacion:hover {
+      transform: translateY(-2px);
+      background-color: var(--white);
+    }
+
+    /* ===== SECCIÓN REGALOS ===== */
+    .icono-sobre {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+      display: inline-block;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+    }
+
+    .badge-sobre {
+      display: inline-block;
+      background: var(--gold-gradient);
+      color: #3e2723;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+      padding: 8px 22px;
+      border-radius: 20px;
+      margin: 15px 0;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+    }
+
+    .texto-gracias {
+      font-family: 'Alex Brush', cursive;
+      font-size: 2.3rem;
+      color: var(--soft-navy);
+      margin-top: 10px;
+      line-height: 1;
+    }
+
+    /* ===== SECCIÓN RSVP WHATSAPP ===== */
+    .rsvp-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .rsvp-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid #d4cfc5;
+      border-radius: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      background-color: #fff;
+      color: #333;
+      transition: border-color 0.2s ease;
+    }
+
+    .rsvp-input:focus {
+      border-color: var(--soft-navy);
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: var(--whatsapp-green);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+    }
+
+    /* ===== SECCIÓN FAMILIA ===== */
+    .seccion-familia {
+      background-color: rgba(252, 251, 249, 0.9);
+      border-radius: 14px;
+      padding: 26px 20px;
+      margin: 0 auto 35px;
+      box-shadow: 0 6px 20px rgba(53, 59, 101, 0.08);
+      max-width: 420px;
+    }
+
+    .familia-bloque {
+      margin-bottom: 20px;
+    }
+
+    .familia-bloque:last-child {
+      margin-bottom: 0;
+    }
+
+    .familia-subtitulo {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--soft-navy);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .familia-lista {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .familia-lista li {
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== MARCO CIRCULAR DORADO (FOTO FINAL) ===== */
+    .marco-dorado-contenedor {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto 18px;
+    }
+
+    .marco-dorado {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      padding: 6px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 15px rgba(212, 175, 55, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .marco-dorado-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--ivory);
+      padding: 4px;
+      overflow: hidden;
+    }
+
+    .marco-dorado-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    /* Frase emotiva final */
+    .frase-final-abuelos {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--white);
+      line-height: 1.7;
+      max-width: 440px;
+      margin: 15px auto 30px;
+      padding: 0 15px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="musicaFondo" loop preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-btn" id="musicBtn" aria-label="Reproducir / Pausar Música">
+    🎵
+  </button>
+
+  <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="backdrop" id="backdrop"></div>
+
+  <aside class="menu-overlay" id="menuOverlay">
+    <nav>
+      <ul>
+        <li><a href="#inicio" class="nav-link">Inicio</a></li>
+        <li><a href="#itinerario" class="nav-link">Itinerario</a></li>
+        <li><a href="#dress-code" class="nav-link">Dress Code</a></li>
+        <li><a href="#ubicacion" class="nav-link">Ubicación</a></li>
+        <li><a href="#regalos" class="nav-link">Regalos</a></li>
+        <li><a href="#rsvp" class="nav-link">RSVP</a></li>
+        <li><a href="#familia" class="nav-link">Familia</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="invitacion-layout" id="inicio">
+    <p class="header-tag">Nuestras Bodas de Oro</p>
+    <h1 class="titulo-principal">50 Años de Amor</h1>
+
+    <div class="foto-contenedor">
+      <img src="Diseño_sin_título-removebg-preview.png" alt="Bodas de Oro">
+    </div>
+
+    <div class="nombres-abuelos">
+      <h2>Mary <span class="ampersand">&</span> Arturo</h2>
+    </div>
+
+    <div class="seccion-contador">
+      <h3>Faltan para el gran día:</h3>
+      <div class="timer-grid">
+        <div class="timer-item">
+          <span class="numero" id="dias">00</span>
+          <span class="etiqueta">Días</span>
+        </div>
+        <div class="timer-item">
+          <span class="numero" id="horas">00</span>
+          <span class="etiqueta">Horas</span>
+        </div>
+        <div class="timer-item">
+          <span class="numero" id="minutos">00</span>
+          <span class="etiqueta">Min</span>
+        </div>
+        <div class="timer-item">
+          <span class="numero" id="segundos">00</span>
+          <span class="etiqueta">Seg</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="seccion-bloque" id="itinerario">
+      <h2>Itinerario</h2>
+      <p class="seccion-subtitulo">Todo se celebrará en el mismo lugar</p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-badge">06:30 PM</div>
+          <div class="timeline-title">Recepción de Invitados</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-badge">07:00 PM</div>
+          <div class="timeline-title">Ceremonia Religiosa</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-badge">08:00 PM</div>
+          <div class="timeline-title">Inicio de la Fiesta & Brindis</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-badge">09:00 PM</div>
+          <div class="timeline-title">Cena de Gala</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion-bloque" id="dress-code">
+      <h2>Código de Vestimenta</h2>
+      <p class="seccion-subtitulo">Nos encantará verte lucir elegante</p>
+
+      <div class="card-info">
+        <div class="tipo-vestimenta">Formal</div>
+        <p class="nota-dresscode">
+          Les pedimos amablemente evitar vestir tonos de <strong>azul</strong>, <strong>blanco</strong> y <strong>nude</strong>, ya que están reservados exclusivamente para la novia.
+        </p>
+
+        <div class="colores-reservados">
+          <div class="color-muestra">
+            <div class="circulo-color color-azul"></div>
+            <span>Azul</span>
+          </div>
+          <div class="color-muestra">
+            <div class="circulo-color color-blanco"></div>
+            <span>Blanco</span>
+          </div>
+          <div class="color-muestra">
+            <div class="circulo-color color-nude"></div>
+            <span>Nude</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion-bloque" id="ubicacion">
+      <h2>Ubicación</h2>
+      <p class="seccion-subtitulo">Acompáñanos a celebrar este gran momento</p>
+
+      <p class="texto-ubicacion">
+        Te esperamos para compartir una noche inolvidable. Haz clic en el siguiente enlace para abrir el mapa y llegar sin complicaciones:
+      </p>
+
+      <a href="https://maps.app.goo.gl/vchJZURFsukEdXUQ6?g_st=aw" target="_blank" class="btn-ubicacion">
+        📍 Abrir en Google Maps
+      </a>
+    </section>
+
+    <section class="seccion-bloque" id="regalos">
+      <h2>Mesa de Regalos</h2>
+      <p class="seccion-subtitulo">Un detalle para nuestro hogar</p>
+
+      <div class="card-info">
+        <div class="icono-sobre">✉️</div>
+        <p class="nota-dresscode" style="margin-bottom: 10px;">
+          Lo más importante para nosotros es contar con su valiosa compañía en este día tan especial. Sin embargo, si desean tener un detalle con nosotros, les sugerimos:
+        </p>
+        <div class="badge-sobre">✉️ Lluvia de Sobres</div>
+        <p class="texto-gracias">¡Muchas Gracias!</p>
+      </div>
+    </section>
+
+    <section class="seccion-bloque" id="rsvp">
+      <h2>Confirmación de Asistencia</h2>
+      <p class="seccion-subtitulo">Por favor confirma antes del 1 de Diciembre</p>
+
+      <div class="card-info">
+        <p class="nota-dresscode">
+          Tu presencia es muy importante para nosotros. Escribe tu nombre a continuación para confirmar vía WhatsApp:
+        </p>
+        <div class="rsvp-form">
+          <input type="text" id="nombreInvitado" class="rsvp-input" placeholder="Nombre completo del invitado(s)">
+          <button class="btn-whatsapp" onclick="enviarRSVP()">
+            <span>💬</span> Confirmar por WhatsApp
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion-bloque" id="familia">
+      <h2>Nuestra Familia</h2>
+      <p class="seccion-subtitulo">Con todo nuestro amor y gratitud</p>
+
+      <div class="seccion-familia">
+        <div class="familia-bloque">
+          <p class="familia-subtitulo">En honor y a nombre de nuestros hijos:</p>
+          <ul class="familia-lista">
+            <li>Karina Montes de Oca Acatitla</li>
+            <li>Daniel Montes de Oca Acatitla</li>
+            <li>Arturo Montes de Oca Acatitla</li>
+          </ul>
+        </div>
+        
+        <div class="familia-bloque">
+          <p class="familia-subtitulo">Nuestros yernos y nueras:</p>
+          <ul class="familia-lista">
+            <li>María de los Ángeles Fuentes Vieyra</li>
+            <li>Jessica Uribe Hernandez</li>
+            <li>Eric Paredes Martinez</li>
+          </ul>
+        </div>
+
+        <div class="familia-bloque">
+          <p class="familia-subtitulo">Nuestros nietos:</p>
+          <ul class="familia-lista">
+            <li>Ana Belen Bello Montes de Oca</li>
+            <li>Danna Sofia Montes de Oca Fuentes</li>
+            <li>Yuliana Bello Montes de Oca</li>
+            <li>Angel Eduardo Bello Montes de Oca</li>
+            <li>Mauricio Montes de Oca Uribe</li>
+            <li>Arturo Montes de Oca Fuentes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="marco-dorado-contenedor">
+        <div class="marco-dorado">
+          <div class="marco-dorado-inner">
+            <img src="Foto1.jpeg" alt="Mary & Arturo">
+          </div>
+        </div>
+      </div>
+
+      <p class="frase-final-abuelos">
+        "Hace 50 años decidimos unir nuestras vidas y solo podemos decir que esa ha sido la mejor decisión de nuestras vidas..."
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+    // ===== CONFIGURACIÓN RSVP WHATSAPP =====
+    // Coloca aquí el número de teléfono con lada de país (Ejemplo México: 521234567890)
+    const NUMERO_WHATSAPP = "525520103771"; 
+
+    function enviarRSVP() {
+      const nombre = document.getElementById('nombreInvitado').value.trim();
+      let mensaje = "";
+      
+      if (nombre) {
+        mensaje = `¡Hola! Con mucho gusto confirmo mi asistencia a las Bodas de Oro de Mary & Arturo. Mi nombre es: ${nombre}.`;
+      } else {
+        mensaje = `¡Hola! Con mucho gusto confirmo mi asistencia a las Bodas de Oro de Mary & Arturo.`;
+      }
+      
+      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
+
+    // ===== REPRODUCTOR DE AUDIO =====
+    const audio = document.getElementById('musicaFondo');
+    const musicBtn = document.getElementById('musicBtn');
+    let musicaIniciada = false;
+
+    function reproducirAudio() {
+      audio.play().then(() => {
+        musicBtn.innerText = '🔊';
+        musicBtn.classList.add('playing');
+        musicaIniciada = true;
+      }).catch(() => {
+        musicBtn.innerText = '🔈';
+      });
+    }
+
+    function pausarAudio() {
+      audio.pause();
+      musicBtn.innerText = '🔈';
+      musicBtn.classList.remove('playing');
+    }
+
+    window.addEventListener('load', () => {
+      reproducirAudio();
+    });
+
+    document.addEventListener('click', () => {
+      if (!musicaIniciada) {
+        reproducirAudio();
+      }
+    }, { once: true });
+
+    musicBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (audio.paused) {
+        reproducirAudio();
+      } else {
+        pausarAudio();
+      }
+    });
+
+    // ===== CONTADOR REGRESIVO =====
+    const fechaBoda = new Date('December 19, 2026 18:30:00').getTime();
+
+    function actualizarContador() {
+      const ahora = new Date().getTime();
+      const distancia = fechaBoda - ahora;
+
+      if (distancia < 0) {
+        document.querySelector('.seccion-contador').innerHTML = "<h3 style='color: #ffffff;'>¡Hoy es el gran día! ✨</h3>";
+        return;
+      }
+
+      const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+      document.getElementById('dias').innerText = dias.toString().padStart(2, '0');
+      document.getElementById('horas').innerText = horas.toString().padStart(2, '0');
+      document.getElementById('minutos').innerText = minutos.toString().padStart(2, '0');
+      document.getElementById('segundos').innerText = segundos.toString().padStart(2, '0');
+    }
+
+    setInterval(actualizarContador, 1000);
+    actualizarContador();
+
+    // ===== CONTROL DEL MENÚ =====
+    const menuBtn = document.getElementById('menuBtn');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const backdrop = document.getElementById('backdrop');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    function toggleMenu() {
+      menuOverlay.classList.toggle('activo');
+      backdrop.classList.toggle('activo');
+    }
+
+    function cerrarMenu() {
+      menuOverlay.classList.remove('activo');
+      backdrop.classList.remove('activo');
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+    backdrop.addEventListener('click', cerrarMenu);
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', cerrarMenu);
+    });
+  </script>
+
+</body>
+</html>
