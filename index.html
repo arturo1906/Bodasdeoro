@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bodas de Oro | Mary & Arturo</title>
 
-  <!-- Tipografías elegantes desde Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap" rel="stylesheet">
@@ -653,17 +652,12 @@
 </head>
 <body>
 
-  <!-- Audio de fondo -->
-  <audio id="musicaFondo" loop preload="auto">
-    <source src="HUMBE - Morfina.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="musicaFondo" preload="auto"></audio>
 
-  <!-- Botón Flotante de Música -->
   <button class="music-btn" id="musicBtn" aria-label="Reproducir / Pausar Música">
     🎵
   </button>
 
-  <!-- Botón de Menú -->
   <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">
     <span></span>
     <span></span>
@@ -700,7 +694,6 @@
       <h2>Mary <span class="ampersand">&</span> Arturo</h2>
     </div>
 
-    <!-- Contador Regresivo -->
     <div class="seccion-contador revelar">
       <h3>Faltan para el gran día:</h3>
       <div class="timer-grid">
@@ -723,7 +716,6 @@
       </div>
     </div>
 
-    <!-- Foto circular y frase reubicadas después del contador -->
     <div class="marco-dorado-contenedor revelar">
       <div class="marco-dorado">
         <div class="marco-dorado-inner">
@@ -736,7 +728,6 @@
       "Hace 50 años decidimos unir nuestras vidas y solo podemos decir que esa ha sido la mejor decisión..."
     </p>
 
-    <!-- Nuevo apartado de celebración y fecha -->
     <div class="card-celebracion revelar">
       <p class="mensaje-invitacion">
         Deseamos compartir con ustedes la celebración de nuestro aniversario
@@ -746,7 +737,6 @@
       </div>
     </div>
 
-    <!-- Sección Itinerario -->
     <section class="seccion-bloque revelar" id="itinerario">
       <h2>Itinerario</h2>
       <p class="seccion-subtitulo">Todo se celebrará en el mismo lugar</p>
@@ -774,7 +764,6 @@
       </div>
     </section>
 
-    <!-- Sección Dress Code -->
     <section class="seccion-bloque revelar" id="dress-code">
       <h2>Código de Vestimenta</h2>
       <p class="seccion-subtitulo">Nos encantará verte lucir elegante</p>
@@ -802,7 +791,6 @@
       </div>
     </section>
 
-    <!-- Sección Ubicación -->
     <section class="seccion-bloque revelar" id="ubicacion">
       <h2>Ubicación</h2>
       <p class="seccion-subtitulo">Acompáñanos a celebrar este gran momento</p>
@@ -816,7 +804,6 @@
       </a>
     </section>
 
-    <!-- Sección Regalos -->
     <section class="seccion-bloque revelar" id="regalos">
       <h2>Mesa de Regalos</h2>
 
@@ -830,7 +817,6 @@
       </div>
     </section>
 
-    <!-- Sección RSVP -->
     <section class="seccion-bloque revelar" id="rsvp">
       <h2>Confirmación de Asistencia</h2>
       <p class="seccion-subtitulo">Por favor confirma antes del 30 de Octubre</p>
@@ -848,7 +834,6 @@
       </div>
     </section>
 
-    <!-- Sección Familia -->
     <section class="seccion-bloque revelar" id="familia">
       <h2>Nuestra Familia</h2>
       <p class="seccion-subtitulo">Con todo nuestro amor y gratitud</p>
@@ -906,12 +891,26 @@
       window.open(url, '_blank');
     }
 
-    // ===== REPRODUCTOR DE AUDIO =====
+    // ===== LISTA DE REPRODUCCIÓN SECUENCIAL =====
+    const playlist = [
+      "Rocío Dúrcal - Cómo Han Pasado los Años.mp3",
+      "HUMBE - Morfina.mp3"
+    ];
+    let pistaActual = 0;
+
     const audio = document.getElementById('musicaFondo');
     const musicBtn = document.getElementById('musicBtn');
     let musicaIniciada = false;
 
+    function cargarPista(indice) {
+      audio.src = playlist[indice];
+      audio.load();
+    }
+
     function reproducirAudio() {
+      if (!audio.src || audio.src === window.location.href) {
+        cargarPista(pistaActual);
+      }
       audio.play().then(() => {
         musicBtn.innerText = '🔊';
         musicBtn.classList.add('playing');
@@ -927,7 +926,23 @@
       musicBtn.classList.remove('playing');
     }
 
+    // Al finalizar la primera canción pasa a la siguiente; la última queda en loop
+    audio.addEventListener('ended', () => {
+      pistaActual++;
+      if (pistaActual < playlist.length) {
+        cargarPista(pistaActual);
+        reproducirAudio();
+      } else {
+        // Mantiene en bucle la última canción
+        pistaActual = playlist.length - 1;
+        cargarPista(pistaActual);
+        audio.loop = true;
+        reproducirAudio();
+      }
+    });
+
     window.addEventListener('load', () => {
+      cargarPista(0);
       reproducirAudio();
     });
 
