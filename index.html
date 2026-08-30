@@ -290,6 +290,85 @@
       font-weight: 600;
     }
 
+    /* ===== MARCO CIRCULAR DORADO ===== */
+    .marco-dorado-contenedor {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 35px auto 18px;
+    }
+
+    .marco-dorado {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      padding: 6px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 15px rgba(212, 175, 55, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .marco-dorado-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--ivory);
+      padding: 4px;
+      overflow: hidden;
+    }
+
+    .marco-dorado-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .frase-final-abuelos {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--white);
+      line-height: 1.7;
+      max-width: 440px;
+      margin: 15px auto 30px;
+      padding: 0 15px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    /* ===== TARJETA DE CELEBRACIÓN Y FECHA ===== */
+    .card-celebracion {
+      background-color: rgba(252, 251, 249, 0.94);
+      border-radius: 16px;
+      padding: 30px 24px;
+      margin: 35px auto 20px;
+      box-shadow: 0 10px 25px rgba(53, 59, 101, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      position: relative;
+    }
+
+    .card-celebracion .mensaje-invitacion {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.18rem;
+      color: var(--soft-navy);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .card-celebracion .fecha-destacada {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--soft-navy);
+      letter-spacing: 0.5px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(53, 59, 101, 0.15);
+    }
+
     /* ===== SECCIONES GENERALES ===== */
     .seccion-bloque {
       padding: 60px 0 20px;
@@ -570,55 +649,6 @@
       font-weight: 400;
       letter-spacing: 0.5px;
     }
-
-    /* ===== MARCO CIRCULAR DORADO ===== */
-    .marco-dorado-contenedor {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 20px auto 18px;
-    }
-
-    .marco-dorado {
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background: var(--gold-gradient);
-      padding: 6px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 15px rgba(212, 175, 55, 0.4);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .marco-dorado-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background-color: var(--ivory);
-      padding: 4px;
-      overflow: hidden;
-    }
-
-    .marco-dorado-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      display: block;
-    }
-
-    .frase-final-abuelos {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      color: var(--white);
-      line-height: 1.7;
-      max-width: 440px;
-      margin: 15px auto 30px;
-      padding: 0 15px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.15);
-    }
   </style>
 </head>
 <body>
@@ -670,6 +700,7 @@
       <h2>Mary <span class="ampersand">&</span> Arturo</h2>
     </div>
 
+    <!-- Contador Regresivo -->
     <div class="seccion-contador revelar">
       <h3>Faltan para el gran día:</h3>
       <div class="timer-grid">
@@ -692,6 +723,30 @@
       </div>
     </div>
 
+    <!-- Foto circular y frase reubicadas después del contador -->
+    <div class="marco-dorado-contenedor revelar">
+      <div class="marco-dorado">
+        <div class="marco-dorado-inner">
+          <img src="Captura de pantalla 2026-08-30 165037.png" alt="Mary & Arturo">
+        </div>
+      </div>
+    </div>
+
+    <p class="frase-final-abuelos revelar">
+      "Hace 50 años decidimos unir nuestras vidas y solo podemos decir que esa ha sido la mejor decisión..."
+    </p>
+
+    <!-- Nuevo apartado de celebración y fecha -->
+    <div class="card-celebracion revelar">
+      <p class="mensaje-invitacion">
+        Deseamos compartir con ustedes la celebración de nuestro aniversario
+      </p>
+      <div class="fecha-destacada">
+        Sábado 19 de Diciembre de 2026<br>6:30 pm.
+      </div>
+    </div>
+
+    <!-- Sección Itinerario -->
     <section class="seccion-bloque revelar" id="itinerario">
       <h2>Itinerario</h2>
       <p class="seccion-subtitulo">Todo se celebrará en el mismo lugar</p>
@@ -719,6 +774,7 @@
       </div>
     </section>
 
+    <!-- Sección Dress Code -->
     <section class="seccion-bloque revelar" id="dress-code">
       <h2>Código de Vestimenta</h2>
       <p class="seccion-subtitulo">Nos encantará verte lucir elegante</p>
@@ -746,6 +802,7 @@
       </div>
     </section>
 
+    <!-- Sección Ubicación -->
     <section class="seccion-bloque revelar" id="ubicacion">
       <h2>Ubicación</h2>
       <p class="seccion-subtitulo">Acompáñanos a celebrar este gran momento</p>
@@ -759,6 +816,7 @@
       </a>
     </section>
 
+    <!-- Sección Regalos -->
     <section class="seccion-bloque revelar" id="regalos">
       <h2>Mesa de Regalos</h2>
 
@@ -772,6 +830,7 @@
       </div>
     </section>
 
+    <!-- Sección RSVP -->
     <section class="seccion-bloque revelar" id="rsvp">
       <h2>Confirmación de Asistencia</h2>
       <p class="seccion-subtitulo">Por favor confirma antes del 30 de Octubre</p>
@@ -789,6 +848,7 @@
       </div>
     </section>
 
+    <!-- Sección Familia -->
     <section class="seccion-bloque revelar" id="familia">
       <h2>Nuestra Familia</h2>
       <p class="seccion-subtitulo">Con todo nuestro amor y gratitud</p>
@@ -824,18 +884,6 @@
           </ul>
         </div>
       </div>
-
-      <div class="marco-dorado-contenedor">
-        <div class="marco-dorado">
-          <div class="marco-dorado-inner">
-            <img src="foto1.jpeg" alt="Mary & Arturo">
-          </div>
-        </div>
-      </div>
-
-      <p class="frase-final-abuelos">
-        "Hace 50 años decidimos unir nuestras vidas y solo podemos decir que esa ha sido la mejor decisión de nuestras vidas..."
-      </p>
     </section>
 
   </main>
@@ -883,7 +931,6 @@
       reproducirAudio();
     });
 
-    // Desbloqueo de reproducción para pantallas táctiles y escritorio
     function iniciarAlInteractuar() {
       if (!musicaIniciada) {
         reproducirAudio();
@@ -953,7 +1000,7 @@
       link.addEventListener('click', cerrarMenu);
     });
 
-    // ===== ANIMACIÓN SCROLL REVEAL (INTERSECTION OBSERVER) =====
+    // ===== ANIMACIÓN SCROLL REVEAL =====
     const elementosRevelar = document.querySelectorAll('.revelar');
     const observador = new IntersectionObserver((entradas) => {
       entradas.forEach((entrada) => {
