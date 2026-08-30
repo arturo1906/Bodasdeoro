@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bodas de Oro | Mary & Arturo</title>
 
+  <!-- Tipografías elegantes desde Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap" rel="stylesheet">
@@ -39,6 +40,20 @@
       align-items: center;
       font-family: 'Montserrat', sans-serif;
       padding: 60px 20px 40px;
+      overflow-x: hidden;
+    }
+
+    /* ===== ANIMACIONES SCROLL REVEAL ===== */
+    .revelar {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: opacity, transform;
+    }
+
+    .revelar.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* ===== BOTÓN FLOTANTE DE MÚSICA ===== */
@@ -47,19 +62,20 @@
       top: 20px;
       left: 20px;
       z-index: 1000;
-      background-color: rgba(252, 251, 249, 0.9);
+      background-color: rgba(252, 251, 249, 0.92);
       border: none;
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(53, 59, 101, 0.15);
-      backdrop-filter: blur(4px);
-      font-size: 1.1rem;
-      transition: transform 0.2s ease;
+      box-shadow: 0 4px 14px rgba(53, 59, 101, 0.2);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      font-size: 1.15rem;
+      transition: transform 0.25s ease;
     }
 
     .music-btn:hover {
@@ -82,10 +98,10 @@
       top: 20px;
       right: 20px;
       z-index: 1000;
-      background-color: rgba(252, 251, 249, 0.9);
+      background-color: rgba(252, 251, 249, 0.92);
       border: none;
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       display: flex;
       flex-direction: column;
@@ -93,8 +109,9 @@
       align-items: center;
       gap: 5px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(53, 59, 101, 0.15);
-      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 14px rgba(53, 59, 101, 0.2);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
 
     .menu-btn span {
@@ -119,7 +136,7 @@
       transition: right 0.4s ease;
       display: flex;
       flex-direction: column;
-      padding: 80px 30px 40px;
+      padding: 85px 30px 40px;
     }
 
     .menu-overlay.activo {
@@ -155,7 +172,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(0, 0, 0, 0.35);
       z-index: 998;
       opacity: 0;
       visibility: hidden;
@@ -192,7 +209,6 @@
       margin-bottom: 25px;
     }
 
-    /* Imagen superior */
     .foto-contenedor {
       width: 100%;
       max-width: 360px;
@@ -206,7 +222,6 @@
       margin: 0 auto;
     }
 
-    /* Nombres en blanco */
     .nombres-abuelos {
       margin-bottom: 30px;
     }
@@ -244,13 +259,19 @@
     }
 
     .timer-item {
-      background-color: rgba(252, 251, 249, 0.85);
+      background-color: rgba(252, 251, 249, 0.88);
       padding: 12px 10px;
-      border-radius: 10px;
+      border-radius: 12px;
       min-width: 68px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      box-shadow: 0 4px 12px rgba(53, 59, 101, 0.08);
+      transition: transform 0.25s ease;
+    }
+
+    .timer-item:hover {
+      transform: translateY(-3px);
     }
 
     .timer-item .numero {
@@ -341,7 +362,7 @@
 
     /* ===== DRESS CODE ===== */
     .card-info {
-      background-color: rgba(252, 251, 249, 0.9);
+      background-color: rgba(252, 251, 249, 0.92);
       padding: 28px 22px;
       border-radius: 14px;
       max-width: 420px;
@@ -418,16 +439,17 @@
       font-size: 0.85rem;
       letter-spacing: 1px;
       text-transform: uppercase;
-      transition: transform 0.2s ease, background-color 0.2s ease;
+      transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
       box-shadow: 0 4px 15px rgba(53, 59, 101, 0.15);
     }
 
     .btn-ubicacion:hover {
       transform: translateY(-2px);
       background-color: var(--white);
+      box-shadow: 0 6px 20px rgba(53, 59, 101, 0.22);
     }
 
-    /* ===== SECCIÓN REGALOS ===== */
+    /* ===== REGALOS ===== */
     .icono-sobre {
       font-size: 2.8rem;
       margin-bottom: 12px;
@@ -457,7 +479,7 @@
       line-height: 1;
     }
 
-    /* ===== SECCIÓN RSVP WHATSAPP ===== */
+    /* ===== RSVP WHATSAPP ===== */
     .rsvp-form {
       display: flex;
       flex-direction: column;
@@ -508,9 +530,9 @@
       box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
     }
 
-    /* ===== SECCIÓN FAMILIA ===== */
+    /* ===== FAMILIA ===== */
     .seccion-familia {
-      background-color: rgba(252, 251, 249, 0.9);
+      background-color: rgba(252, 251, 249, 0.92);
       border-radius: 14px;
       padding: 26px 20px;
       margin: 0 auto 35px;
@@ -549,7 +571,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* ===== MARCO CIRCULAR DORADO (FOTO FINAL) ===== */
+    /* ===== MARCO CIRCULAR DORADO ===== */
     .marco-dorado-contenedor {
       display: flex;
       justify-content: center;
@@ -586,7 +608,6 @@
       display: block;
     }
 
-    /* Frase emotiva final */
     .frase-final-abuelos {
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -602,14 +623,17 @@
 </head>
 <body>
 
+  <!-- Audio de fondo -->
   <audio id="musicaFondo" loop preload="auto">
-    <source src="musica.mp3" type="audio/mpeg">
+    <source src="HUMBE - Morfina.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- Botón Flotante de Música -->
   <button class="music-btn" id="musicBtn" aria-label="Reproducir / Pausar Música">
     🎵
   </button>
 
+  <!-- Botón de Menú -->
   <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">
     <span></span>
     <span></span>
@@ -633,18 +657,20 @@
   </aside>
 
   <main class="invitacion-layout" id="inicio">
-    <p class="header-tag">Nuestras Bodas de Oro</p>
-    <h1 class="titulo-principal">50 Años de Amor</h1>
+    <div class="revelar">
+      <p class="header-tag">Nuestras Bodas de Oro</p>
+      <h1 class="titulo-principal">50 Años de Amor</h1>
+    </div>
 
-    <div class="foto-contenedor">
+    <div class="foto-contenedor revelar">
       <img src="Diseño_sin_título-removebg-preview.png" alt="Bodas de Oro">
     </div>
 
-    <div class="nombres-abuelos">
+    <div class="nombres-abuelos revelar">
       <h2>Mary <span class="ampersand">&</span> Arturo</h2>
     </div>
 
-    <div class="seccion-contador">
+    <div class="seccion-contador revelar">
       <h3>Faltan para el gran día:</h3>
       <div class="timer-grid">
         <div class="timer-item">
@@ -666,7 +692,7 @@
       </div>
     </div>
 
-    <section class="seccion-bloque" id="itinerario">
+    <section class="seccion-bloque revelar" id="itinerario">
       <h2>Itinerario</h2>
       <p class="seccion-subtitulo">Todo se celebrará en el mismo lugar</p>
 
@@ -693,7 +719,7 @@
       </div>
     </section>
 
-    <section class="seccion-bloque" id="dress-code">
+    <section class="seccion-bloque revelar" id="dress-code">
       <h2>Código de Vestimenta</h2>
       <p class="seccion-subtitulo">Nos encantará verte lucir elegante</p>
 
@@ -720,7 +746,7 @@
       </div>
     </section>
 
-    <section class="seccion-bloque" id="ubicacion">
+    <section class="seccion-bloque revelar" id="ubicacion">
       <h2>Ubicación</h2>
       <p class="seccion-subtitulo">Acompáñanos a celebrar este gran momento</p>
 
@@ -733,7 +759,7 @@
       </a>
     </section>
 
-    <section class="seccion-bloque" id="regalos">
+    <section class="seccion-bloque revelar" id="regalos">
       <h2>Mesa de Regalos</h2>
       <p class="seccion-subtitulo">Un detalle para nuestro hogar</p>
 
@@ -747,7 +773,7 @@
       </div>
     </section>
 
-    <section class="seccion-bloque" id="rsvp">
+    <section class="seccion-bloque revelar" id="rsvp">
       <h2>Confirmación de Asistencia</h2>
       <p class="seccion-subtitulo">Por favor confirma antes del 1 de Diciembre</p>
 
@@ -764,7 +790,7 @@
       </div>
     </section>
 
-    <section class="seccion-bloque" id="familia">
+    <section class="seccion-bloque revelar" id="familia">
       <h2>Nuestra Familia</h2>
       <p class="seccion-subtitulo">Con todo nuestro amor y gratitud</p>
 
@@ -803,7 +829,7 @@
       <div class="marco-dorado-contenedor">
         <div class="marco-dorado">
           <div class="marco-dorado-inner">
-            <img src="Foto1.jpeg" alt="Mary & Arturo">
+            <img src="foto1.jpeg" alt="Mary & Arturo">
           </div>
         </div>
       </div>
@@ -817,7 +843,6 @@
 
   <script>
     // ===== CONFIGURACIÓN RSVP WHATSAPP =====
-    // Coloca aquí el número de teléfono con lada de país (Ejemplo México: 521234567890)
     const NUMERO_WHATSAPP = "525520103771"; 
 
     function enviarRSVP() {
@@ -859,11 +884,17 @@
       reproducirAudio();
     });
 
-    document.addEventListener('click', () => {
+    // Desbloqueo de reproducción para pantallas táctiles y escritorio
+    function iniciarAlInteractuar() {
       if (!musicaIniciada) {
         reproducirAudio();
       }
-    }, { once: true });
+      document.removeEventListener('touchstart', iniciarAlInteractuar);
+      document.removeEventListener('click', iniciarAlInteractuar);
+    }
+
+    document.addEventListener('touchstart', iniciarAlInteractuar, { passive: true });
+    document.addEventListener('click', iniciarAlInteractuar);
 
     musicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -922,6 +953,21 @@
     navLinks.forEach(link => {
       link.addEventListener('click', cerrarMenu);
     });
+
+    // ===== ANIMACIÓN SCROLL REVEAL (INTERSECTION OBSERVER) =====
+    const elementosRevelar = document.querySelectorAll('.revelar');
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          entrada.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: "0px 0px -40px 0px"
+    });
+
+    elementosRevelar.forEach((el) => observador.observe(el));
   </script>
 
 </body>
