@@ -222,7 +222,7 @@
     }
 
     .nombres-abuelos {
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
     .nombres-abuelos h2 {
@@ -239,6 +239,23 @@
       color: var(--white);
       margin: 0 6px;
       vertical-align: middle;
+    }
+
+    /* ===== FOTO DESPUÉS DEL INICIO ===== */
+    .foto-inicio-contenedor {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto 35px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 3px solid rgba(252, 251, 249, 0.85);
+      box-shadow: 0 10px 25px rgba(53, 59, 101, 0.18);
+    }
+
+    .foto-inicio-contenedor img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     /* Contador */
@@ -652,12 +669,15 @@
 </head>
 <body>
 
+  <!-- Audio de fondo -->
   <audio id="musicaFondo" preload="auto"></audio>
 
+  <!-- Botón Flotante de Música -->
   <button class="music-btn" id="musicBtn" aria-label="Reproducir / Pausar Música">
     🎵
   </button>
 
+  <!-- Botón de Menú -->
   <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">
     <span></span>
     <span></span>
@@ -694,6 +714,12 @@
       <h2>Mary <span class="ampersand">&</span> Arturo</h2>
     </div>
 
+    <!-- NUEVA FOTO: Justo después del inicio -->
+    <div class="foto-inicio-contenedor revelar">
+      <img src="foto-inicio.jpeg" alt="Mary & Arturo">
+    </div>
+
+    <!-- Contador Regresivo -->
     <div class="seccion-contador revelar">
       <h3>Faltan para el gran día:</h3>
       <div class="timer-grid">
@@ -716,6 +742,7 @@
       </div>
     </div>
 
+    <!-- Foto circular y frase al final del bloque principal -->
     <div class="marco-dorado-contenedor revelar">
       <div class="marco-dorado">
         <div class="marco-dorado-inner">
@@ -728,6 +755,7 @@
       "Hace 50 años decidimos unir nuestras vidas y solo podemos decir que esa ha sido la mejor decisión..."
     </p>
 
+    <!-- Apartado de celebración y fecha -->
     <div class="card-celebracion revelar">
       <p class="mensaje-invitacion">
         Deseamos compartir con ustedes la celebración de nuestro aniversario
@@ -737,6 +765,7 @@
       </div>
     </div>
 
+    <!-- Sección Itinerario -->
     <section class="seccion-bloque revelar" id="itinerario">
       <h2>Itinerario</h2>
       <p class="seccion-subtitulo">Todo se celebrará en el mismo lugar</p>
@@ -764,6 +793,7 @@
       </div>
     </section>
 
+    <!-- Sección Dress Code -->
     <section class="seccion-bloque revelar" id="dress-code">
       <h2>Código de Vestimenta</h2>
       <p class="seccion-subtitulo">Nos encantará verte lucir elegante</p>
@@ -791,6 +821,7 @@
       </div>
     </section>
 
+    <!-- Sección Ubicación -->
     <section class="seccion-bloque revelar" id="ubicacion">
       <h2>Ubicación</h2>
       <p class="seccion-subtitulo">Acompáñanos a celebrar este gran momento</p>
@@ -804,6 +835,7 @@
       </a>
     </section>
 
+    <!-- Sección Regalos -->
     <section class="seccion-bloque revelar" id="regalos">
       <h2>Mesa de Regalos</h2>
 
@@ -817,6 +849,7 @@
       </div>
     </section>
 
+    <!-- Sección RSVP -->
     <section class="seccion-bloque revelar" id="rsvp">
       <h2>Confirmación de Asistencia</h2>
       <p class="seccion-subtitulo">Por favor confirma antes del 30 de Octubre</p>
@@ -834,6 +867,7 @@
       </div>
     </section>
 
+    <!-- Sección Familia -->
     <section class="seccion-bloque revelar" id="familia">
       <h2>Nuestra Familia</h2>
       <p class="seccion-subtitulo">Con todo nuestro amor y gratitud</p>
@@ -938,7 +972,6 @@
       }
     });
 
-    // Desbloqueo instantáneo con cualquier gesto en Android / iOS
     function desbloquearAudio() {
       if (!musicaIniciada) {
         reproducirAudio();
